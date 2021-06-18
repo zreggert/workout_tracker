@@ -1,9 +1,17 @@
+const express = require("express");
 const mongoose = require("mongoose");
 
 const PORT = process.env.PORT || 3001;
 
+const app = express();
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.use(express.static("public"));
+
 mongoose.connect(
-    process.env.MONGODB_URI || 'mongodb:localhost/workout-tracker-ze',
+    process.env.MONGODB_URI || 'mongodb://localhost/workout-tracker-ze',
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -11,3 +19,7 @@ mongoose.connect(
         useFindAndModify: false
     }
 );
+
+app.listen(PORT, () => {
+    console.log(`App running on port ${PORT}.`);
+});
